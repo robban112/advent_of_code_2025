@@ -1,10 +1,26 @@
 const path = require('path');
-const { readLines } = require('../helper/helper');
+const { mod, readLines } = require('../helper/helper');
 
-// Resolve input.txt relative to this script's directory
 const inputPath = path.join(__dirname, 'input', 'input.txt');
-const list = readLines(inputPath);
+const input = readLines(inputPath);
 
-// Print list to console
-console.log(list);
+var point = 50;
+var amountOfTimesAtZero = 0;
 
+for (var inputLine of input) {
+    const direction = inputLine[0];
+    const distance = inputLine.slice(1, inputLine.length);
+
+    if (direction === 'R') {
+        point += parseInt(distance);
+    } else if (direction === 'L') {
+        point -= parseInt(distance);
+    }
+
+    point = mod(point, 100);
+    if (point === 0) {
+        amountOfTimesAtZero++;
+    }
+}
+
+console.log(amountOfTimesAtZero);
