@@ -15,5 +15,13 @@ function mod(n, m) {
   return ((n % m) + m) % m;
 }
 
+Array.prototype.max = function() {
+  return Math.max.apply(null, this);
+};
+
+Array.prototype.min = function() {
+  return Math.min.apply(null, this);
+};
+
 module.exports = { readLines, mod };
 
