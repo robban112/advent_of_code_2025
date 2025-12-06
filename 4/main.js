@@ -6,7 +6,6 @@ const input = readLines(inputPath);
 
 paper = '@';
 maxPaper = 4;
-output = 0;
 
 class Grid {
     constructor(grid) {
@@ -15,6 +14,10 @@ class Grid {
 
     get() {
         return this.grid;
+    }
+
+    clearPosition(x, y) {
+        this.grid[x][y] = ".";
     }
 
     adjacent(x, y) {
@@ -68,6 +71,8 @@ function partOne() {
     const gridCl = getGrid();
     const grid = gridCl.get();
 
+    output = 0;
+
     for (var x = 0; x<grid.length; x++) {
         for (var y=0; y<grid[x].length; y++) {
             if (grid[x][y] !== paper) continue;
@@ -78,9 +83,46 @@ function partOne() {
         }
     }
 
-    console.log("output: ", output)
+    console.log("output partOne: ", output)
+}
+
+function partTwo() {
+    const gridCl = getGrid();
+    const grid = gridCl.get();
+    var output = 0;
+    var initial = true;
+    var marks = [];
+    var iteration = 0;
+    while (initial || marks.length > 0) {
+        marks = [];
+        initial = false;
+        console.log("iteration:", iteration, " marks: ", marks);
+        iteration++;
+        for (var x = 0; x<grid.length; x++) {
+            for (var y=0; y<grid[x].length; y++) {
+                if (grid[x][y] !== paper) continue;
+                const adjacents = gridCl.adjacent(x, y).filter((adj) => adj === paper);
+                if (adjacents.length < maxPaper) {
+                    output++;
+                    marks.push([x, y]);
+                }
+            }
+        }
+
+        if (marks.length !== 0) {
+            console.log("Remove ", marks.length, " rolls of paper");
+        }
+
+        for (var mark of marks) {
+            gridCl.clearPosition(mark[0], mark[1]);
+        }
+        
+    }
+
+    console.log("output partTwo: ", output)
 }
 
 
 
 partOne();
+partTwo();
